@@ -54,8 +54,6 @@ export default {
       }
     },
     prefillForm({ recipient, subject, body }) {
-      console.log("aaaaaa")
-      debugger
       this.email.to = recipient || ""
       this.email.subject = subject || ""
       this.email.message = body || ""

@@ -1,11 +1,12 @@
 import json
 import re
 from openai import OpenAI
+from time import sleep
 client = OpenAI()
 
 ASSISTANT_ID = "asst_q0z52SFDJFVnq9OWZMIiIPmT"
 
-MDCODE = re.compile("^\s*```(.*)```$")
+MDCODE = re.compile("^\s*```.*\n(.*)\n```$")
 
 def sendMessage(message):
     thread = client.beta.threads.create()
@@ -15,6 +16,7 @@ def sendMessage(message):
         assistant_id=ASSISTANT_ID
     )
     while(run.status != "completed"):
+        sleep(1)
         run = client.beta.threads.runs.retrieve(
             thread_id=thread.id,
             run_id=run.id
@@ -31,9 +33,9 @@ def sendMessage(message):
     }
 
 def _remove_markdown(s):
-    m = MDCODE.match(s)
-    if m:
-        return m.groups()[0]
+    block = re.search(r'```json(.*)```', s, re.DOTALL)
+    if block:
+        return block.group(1)
     else:
         return s
     

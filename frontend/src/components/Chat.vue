@@ -32,12 +32,7 @@ export default {
     return {
       message: "",
       isSending: false,
-      messages: [
-        { text: "Hello, how can I assist you?", sender: "agent" },
-        { text: "I need help with my order.", sender: "user" },
-        { text: "Sure, I can help with that.", sender: "agent" },
-        // More hardcoded messages
-      ],
+      messages: [],
     }
   },
   methods: {
@@ -49,7 +44,7 @@ export default {
       const result = await coreApi.sendChatMessage(message)
       result.message = result.message || "ok"
       this.messages.push({ text: result.message, sender: "agent" })
-      if (result.action) {
+      if (result?.action?.operation) {
         this.$emit("action", result.action)
       }
       this.isSending = false

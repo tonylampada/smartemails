@@ -10,7 +10,7 @@
       <VMain>
         <RouterView />
       </VMain>
-      <VNavigationDrawer v-model="rightDrawer" right absolute temporary>
+      <VNavigationDrawer v-model="rightDrawer" right absolute>
         <Chat @action="execChatAction" />
       </VNavigationDrawer>
       <app-footer :fixed="true" :user="loggedUser" />
